@@ -1,11 +1,16 @@
 import logging
+import os
 from telegram import Update
 from telegram.ext import Updater, MessageHandler, Filters, CallbackContext
+from dotenv import load_dotenv
 
-# Replace 'YOUR_BOT_TOKEN' with your bot's token
-bot_token = 'token'
+# load .env file vars
+load_dotenv()
 
-# Enable logging
+# token
+bot_token = os.getenv("BOT_TOKEN")
+
+# enable logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
@@ -29,4 +34,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

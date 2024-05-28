@@ -1,24 +1,39 @@
 import telegram
-from apscheduler.schedulers.blocking import BlockingScheduler
+import os
 import pytz
+from apscheduler.schedulers.blocking import BlockingScheduler
+from dotenv import load_dotenv
 
-# Specify 'YOUR_BOT_TOKEN' and 'YOUR_CHAT_ID'
-bot_token = 'token'
-chat_id = 'chatid'
+# load environment variables from .env file
+load_dotenv()
+
+# specify token and chat_id from .env
+bot_token = os.getenv("BOT_TOKEN")
+chat_id = os.getenv("CHAT_ID")
 
 bot = telegram.Bot(token=bot_token)
 
-def send_message():
-    bot.send_message(chat_id=chat_id, text="test message")
+
+# define function to send messages
+def send_message(text):
+    bot.send_message(chat_id=chat_id, text=text)
+
 
 # Set up the scheduler
-scheduler = BlockingScheduler(timezone=pytz.utc)
+scheduler = BlockingScheduler(timezone=pytz.timezone('Europe/Moscow'))
 
-# Schedule the job to run
+# Schedule the jobs to run at specific times
 
-scheduler.add_job(send_message, 'cron', hour=22, minute=0) # Schedule the job to run every day at 22:00 MSK
+message1 = 'test message every day at 21:50 msk'
+scheduler.add_job(send_message, 'cron', hour=21, minute=50, args=[message1])
+
+message2 = 'test message every day at 20:00 msk'
+scheduler.add_job(send_message, 'cron', hour=20, minute=0, args=[message2])
+
+message3 = 'test message every day at 20:25 msk'
+scheduler.add_job(send_message, 'cron', hour=20, minute=25, args=[message3])
+
 
 # Start the scheduler
 if __name__ == "__main__":
     scheduler.start()
-
