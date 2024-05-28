@@ -1,5 +1,0 @@
-dnf install python
-dnf install python3-pip
-pip install python-telegram-bot==13.11
-pip install apscheduler
-pip install pytz
